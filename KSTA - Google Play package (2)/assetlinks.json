@@ -1,0 +1,8 @@
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "com.kstacoin.lan",
+        "sha256_cert_fingerprints": ["23:64:FF:B5:26:20:06:4A:62:13:14:06:73:EF:39:31:A6:DC:F9:F5:58:FB:EB:1A:6F:8D:72:6B:14:72:17:3F"]
+      }
+    }]

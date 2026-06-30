@@ -1,0 +1,12 @@
+.gradle/
+build/
+app/build/
+*.apk
+*.aab
+*.zip
+*.log
+.cache/
+.config/
+.ssh/
+storage/
+ksta-walk/

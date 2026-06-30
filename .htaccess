@@ -1,0 +1,56 @@
+# =========================================================
+# /alarm/ 폴더용 .htaccess — 보안 헤더 + MIME 타입 + 캐시
+# =========================================================
+
+# -------- 보안 헤더 --------
+<IfModule mod_headers.c>
+  # 클릭재킹 방어 — 외부 사이트에서 iframe 으로 감싸는 것 차단
+  Header always set X-Frame-Options "DENY"
+
+  # MIME 스니핑 방어 — 브라우저가 Content-Type 을 추측하지 않도록
+  Header always set X-Content-Type-Options "nosniff"
+
+  # Referer 유출 최소화 — 동일 출처 외부에는 origin 만
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+
+  # 민감 디바이스 권한 전부 차단
+  Header always set Permissions-Policy "geolocation=(), microphone=(), camera=(), usb=(), payment=(), magnetometer=(), gyroscope=(), accelerometer=()"
+
+  # HSTS — HTTPS 강제 (이미 HTTPS 로만 서비스하는 경우 유효)
+  # 주의: 첫 도입 시 짧은 max-age 로 테스트 후 늘리세요
+  Header always set Strict-Transport-Security "max-age=15768000; includeSubDomains"
+
+  # XSS 필터 (구 브라우저용, 최신 브라우저는 무시)
+  Header always set X-XSS-Protection "1; mode=block"
+
+  # 관리자 페이지 전용 — 추가 격리
+  <FilesMatch "^admin\.html$">
+    Header always set Cache-Control "no-store, no-cache, must-revalidate, max-age=0"
+    Header always set Pragma "no-cache"
+  </FilesMatch>
+
+  # assets 폴더 — 장기 캐시 (파일명이나 ?v= 쿼리 변경 시 새로 받음)
+  <FilesMatch "\.(css|js)$">
+    Header set Cache-Control "public, max-age=2592000, must-revalidate"
+  </FilesMatch>
+</IfModule>
+
+# -------- MIME 타입 명시 --------
+<IfModule mod_mime.c>
+  AddType text/css .css
+  AddType application/javascript .js
+  AddType image/svg+xml .svg
+</IfModule>
+
+# -------- 디렉터리 나열 차단 --------
+Options -Indexes
+
+# -------- 숨김 파일 접근 차단 (.htaccess 자체도) --------
+<FilesMatch "^\.">
+  Require all denied
+</FilesMatch>
+
+# -------- 백업 파일 확장자 접근 차단 --------
+<FilesMatch "\.(bak|backup|old|orig|save|swp|tmp)$">
+  Require all denied
+</FilesMatch>
