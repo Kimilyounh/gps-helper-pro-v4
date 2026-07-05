@@ -80,8 +80,8 @@ public class LocationMonitorService extends Service {
 
     private void createChannel() {
         if (Build.VERSION.SDK_INT >= 26) {
-            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "GPS Helper Pro v7 자동점검", NotificationManager.IMPORTANCE_LOW);
-            channel.setDescription("백그라운드 GPS 자동점검 상태 알림");
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "GPS Helper Pro v8 Ultimate 자동점검", NotificationManager.IMPORTANCE_LOW);
+            channel.setDescription("스마트 알림바 · GPS 정확도 · 속도 · LTE · 배터리 감시");
             NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
             if (nm != null) nm.createNotificationChannel(channel);
         }

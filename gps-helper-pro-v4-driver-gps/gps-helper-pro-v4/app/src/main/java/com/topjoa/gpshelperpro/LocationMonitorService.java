@@ -1,7 +1,0 @@
-package com.topjoa.gpshelperpro;
-import android.Manifest;import android.app.*;import android.content.*;import android.content.pm.PackageManager;import android.location.*;import android.os.*;import androidx.core.app.NotificationCompat;
-public class LocationMonitorService extends Service { LocationManager lm; LocationListener listener; static final String CH="gps_status";
- public void onCreate(){super.onCreate(); if(Build.VERSION.SDK_INT>=26){NotificationChannel ch=new NotificationChannel(CH,"GPS Helper Pro",NotificationManager.IMPORTANCE_LOW); getSystemService(NotificationManager.class).createNotificationChannel(ch);} startForeground(1, note("GPS 모니터링 시작")); lm=(LocationManager)getSystemService(LOCATION_SERVICE); listener=l-> update(l); try{ if(checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION)==PackageManager.PERMISSION_GRANTED) lm.requestLocationUpdates(LocationManager.GPS_PROVIDER,5000,0,listener); }catch(Exception e){} }
- void update(Location l){ String t="정확도 "+Math.round(l.getAccuracy())+"m"; ((NotificationManager)getSystemService(NOTIFICATION_SERVICE)).notify(1,note(t)); }
- Notification note(String text){ return new NotificationCompat.Builder(this,CH).setContentTitle("GPS Helper Pro").setContentText(text).setSmallIcon(android.R.drawable.ic_menu_mylocation).setOngoing(true).build(); }
- public int onStartCommand(Intent i,int f,int id){return START_STICKY;} public IBinder onBind(Intent i){return null;} public void onDestroy(){try{if(lm!=null&&listener!=null)lm.removeUpdates(listener);}catch(Exception e){}super.onDestroy();}}
