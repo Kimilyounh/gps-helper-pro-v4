@@ -1,0 +1,13 @@
+plugins { id 'com.android.application' }
+
+android {
+    namespace 'com.topjoa.gpsinit'
+    compileSdk 35
+    defaultConfig {
+        applicationId 'com.topjoa.gpsinit.pro'
+        minSdk 23
+        targetSdk 35
+        versionCode 20
+        versionName '2.0.0-pro'
+    }
+}
